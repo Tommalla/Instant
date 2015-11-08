@@ -2,7 +2,7 @@ import System.IO ( stdin, hGetContents )
 import System.Environment ( getArgs )
 
 import AbsInstant
-import CompilerJVM
+import CompilerJVM (compileProgram)
 import ErrM
 import LexInstant
 import ParInstant
@@ -16,13 +16,13 @@ compileProgram inputFile = do
 	case pProgram tokens of
 		Bad errorStr -> do
 			putStrLn "ERROR TODO"
-		Ok tree -> do
-			-- TODO Compile
-			putStrLn $ show tree
+		Ok program -> do
+			res <- (CompilerJVM.compileProgram program "foo")
+			putStrLn res
 
 
 main :: IO ()
 main = do
 	inputFiles <- getArgs
 	case inputFiles of
-		[inputFile] -> compileProgram inputFile
+		[inputFile] -> Main.compileProgram inputFile
