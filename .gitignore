@@ -1,3 +1,6 @@
+TestInstant
+insc_jvm
+insc_llvm
 dist
 cabal-dev
 *.o
