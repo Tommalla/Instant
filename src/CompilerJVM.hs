@@ -71,7 +71,6 @@ translateBinaryOp :: Exp -> String -> Exp -> Memory CompileRes
 translateBinaryOp expr1 op expr2 = do
 	(expr1Stack, expr1Code) <- translateExp expr1
 	(expr2Stack, expr2Code) <- translateExp expr2
-	-- let newStack = (max expr1Stack expr2Stack) + 1
 	if expr1Stack < expr2Stack then
 		return (expr2Stack, expr2Code ++ expr1Code ++ "swap\n" ++ op ++ "\n")
 	else
