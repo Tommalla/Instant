@@ -2,8 +2,6 @@ module CompilerJVM where
 
 import Data.Map
 import Control.Monad.State
-import Control.Monad.Except
--- TODO use except
 
 import AbsInstant
 import ErrM
