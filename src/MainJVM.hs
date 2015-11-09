@@ -1,5 +1,8 @@
+import Data.List
+import Data.List.Split
 import System.IO ( stdin, hGetContents )
 import System.Environment ( getArgs )
+import System.Process
 
 import AbsInstant
 import CompilerJVM (compileProgram)
@@ -17,8 +20,16 @@ compileProgram inputFile = do
 		Bad errorStr -> do
 			putStrLn "ERROR TODO"
 		Ok program -> do
-			res <- (CompilerJVM.compileProgram program "foo")
-			putStrLn res
+			let pathSplit = splitOn "/" inputFile
+			let className = head $ splitOn "." $ last $ pathSplit
+			let path = intercalate "/" $ take (length pathSplit - 1) pathSplit
+			let newPath = path ++ (if path == "" then "" else "/") ++ className
+			res <- (CompilerJVM.compileProgram program className)
+			putStrLn $ "Writing to: " ++ (newPath ++ ".j")
+			writeFile (newPath ++ ".j") $ res
+			system $ ("java -jar lib/jasmin.jar " ++ newPath ++ ".j && mv " ++ className ++ ".class " ++ 
+					newPath ++ ".class")
+			return ()
 
 
 main :: IO ()
