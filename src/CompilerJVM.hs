@@ -43,8 +43,8 @@ translateProgram (Prog stmts) = do
 
 translateStmt :: Stmt -> Memory CompileRes
 translateStmt (SAss ident expr) = do
-	env <- get
 	(exprStack, exprCode) <- translateExp expr
+	env <- get
 	loc <- case Data.Map.lookup ident env of
 		Just loc -> return loc
 		Nothing -> do
