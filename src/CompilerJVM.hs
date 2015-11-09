@@ -55,7 +55,7 @@ translateStmt (SAss ident expr) = do
 	return (exprStack, exprCode ++ "istore " ++ (show loc) ++ "\n")
 translateStmt (SExp expr) = do
 	(stack, code) <- translateExp expr
-	return (stack, "getstatic java/lang/System/out Ljava/io/PrintStream;\n" ++ code ++
+	return (stack + 1, "getstatic java/lang/System/out Ljava/io/PrintStream;\n" ++ code ++
 			"invokevirtual java/io/PrintStream/println(I)V\n")
 
 translateExp :: Exp -> Memory CompileRes
@@ -73,8 +73,8 @@ translateBinaryOp :: Exp -> String -> Exp -> Memory CompileRes
 translateBinaryOp expr1 op expr2 = do
 	(expr1Stack, expr1Code) <- translateExp expr1
 	(expr2Stack, expr2Code) <- translateExp expr2
-	let newStack = (max expr1Stack expr2Stack) + 1
+	-- let newStack = (max expr1Stack expr2Stack) + 1
 	if expr1Stack < expr2Stack then
-		return (newStack, expr2Code ++ expr1Code ++ "swap\n" ++ op ++ "\n")
+		return (expr2Stack, expr2Code ++ expr1Code ++ "swap\n" ++ op ++ "\n")
 	else
-		return (newStack, expr1Code ++ expr2Code ++ op ++ "\n")
+		return (max expr1Stack (expr2Stack + 1), expr1Code ++ expr2Code ++ op ++ "\n")
