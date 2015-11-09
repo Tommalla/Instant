@@ -53,7 +53,7 @@ translateStmt (SAss ident expr) = do
 	return (exprStack, exprCode ++ "istore " ++ (show loc) ++ "\n")
 translateStmt (SExp expr) = do
 	(stack, code) <- translateExp expr
-	return (stack + 1, "getstatic java/lang/System/out Ljava/io/PrintStream;\n" ++ code ++
+	return (stack, code ++ "getstatic java/lang/System/out Ljava/io/PrintStream;\nswap\n" ++
 			"invokevirtual java/io/PrintStream/println(I)V\n")
 
 translateExp :: Exp -> Memory CompileRes
