@@ -21,11 +21,11 @@ compileProgram program name = do
 	return (".class public " ++ name ++ "\n" ++
 			".super java/lang/Object\n" ++
 			".method public <init>()V\n" ++
-			"  aload_0\n" ++
-			"  invokespecial java/lang/Object/<init>()V\n" ++
-			"  return\n" ++
+			"aload_0\n" ++
+			"invokespecial java/lang/Object/<init>()V\n" ++
+			"return\n" ++
 			".end method\n" ++
-			".method public static main([Ljava/lang/String;)V\n" ++ mainContent ++
+			"\n.method public static main([Ljava/lang/String;)V\n" ++ mainContent ++
 			"return\n" ++
 			".end method\n")
 
