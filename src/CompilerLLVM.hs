@@ -1,10 +1,15 @@
+-- Tomasz Zakrzewski, tz336079, 2015
 module CompilerLLVM where
 
-import AbsInstant
-import Data.Set
-import Control.Monad.Except
 import Control.Monad.State
+import Data.Set
 import Data.List.Split
+
+import AbsInstant
+import ErrM
+import LexInstant
+import ParInstant
+import PrintInstant
 
 type Env = Set String
 -- Next loc in register and env:

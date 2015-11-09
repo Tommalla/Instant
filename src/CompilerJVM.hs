@@ -1,3 +1,4 @@
+-- Tomasz Zakrzewski, tz336079, 2015
 module CompilerJVM where
 
 import Data.Map
