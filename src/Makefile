@@ -7,4 +7,4 @@ insc_llvm: MainLLVM.hs CompilerLLVM.hs
 	ghc MainLLVM.hs -i../parser -o ../insc_llvm
 
 clean:
-	# TODO
+	rm -rf *.o *.hi
