@@ -58,7 +58,7 @@ translateStmt (SExp expr) = do
 			"invokevirtual java/io/PrintStream/println(I)V\n")
 
 translateExp :: Exp -> Memory CompileRes
-translateExp (ExpLit num) = return (1, "bipush " ++ (show num) ++ "\n")
+translateExp (ExpLit num) = return (1, (translateLoadConstant num) ++ "\n")
 translateExp (ExpVar ident) = do
 	env <- get
 	let loc = env ! ident
@@ -67,6 +67,15 @@ translateExp (ExpAdd expr1 expr2) = translateBinaryOp expr1 "iadd" expr2
 translateExp (ExpSub expr1 expr2) = translateBinaryOp expr1 "isub" expr2
 translateExp (ExpMul expr1 expr2) = translateBinaryOp expr1 "imul" expr2
 translateExp (ExpDiv expr1 expr2) = translateBinaryOp expr1 "idiv" expr2 
+
+translateLoadConstant :: Integer -> String
+translateLoadConstant 0 = "iconst_0"
+translateLoadConstant 1 = "iconst_1"
+translateLoadConstant 2 = "iconst_2"
+translateLoadConstant 3 = "iconst_3"
+translateLoadConstant 4 = "iconst_4"
+translateLoadConstant 5 = "iconst_5"
+translateLoadConstant n = (if (n <= 255) then "bipush " else "ldc ") ++ (show n)
 
 translateBinaryOp :: Exp -> String -> Exp -> Memory CompileRes
 translateBinaryOp expr1 op expr2 = do
