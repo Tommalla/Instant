@@ -1,8 +1,6 @@
 # Compiler
-MRJ 2015
-
-### Why in English?
-Because I intend to publish this code on github after the deadlines.
+This project provides two compilers for a simple language called Instant. Please see the documentation for the language specification. The available compilers are JVM (compiles the code to
+a java .class file) and LLVM (compiles the code to a bc file).
 
 ### Building
 To build the project simply go to the main directory and run:
