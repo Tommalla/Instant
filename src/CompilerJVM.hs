@@ -75,13 +75,18 @@ translateLoadConstant 2 = "iconst_2"
 translateLoadConstant 3 = "iconst_3"
 translateLoadConstant 4 = "iconst_4"
 translateLoadConstant 5 = "iconst_5"
-translateLoadConstant n = (if (n <= 255) then "bipush " else "ldc ") ++ (show n)
+translateLoadConstant n = (if (n <= 127) then "bipush " else "ldc ") ++ (show n)
 
 translateBinaryOp :: Exp -> String -> Exp -> Memory CompileRes
 translateBinaryOp expr1 op expr2 = do
 	(expr1Stack, expr1Code) <- translateExp expr1
 	(expr2Stack, expr2Code) <- translateExp expr2
 	if expr1Stack < expr2Stack then
-		return (expr2Stack, expr2Code ++ expr1Code ++ "swap\n" ++ op ++ "\n")
+		return (expr2Stack, expr2Code ++ expr1Code ++ (doSwap op) ++ op ++ "\n")
 	else
 		return (max expr1Stack (expr2Stack + 1), expr1Code ++ expr2Code ++ op ++ "\n")
+
+doSwap :: String -> String
+doSwap "isub" = "swap\n"
+doSwap "idiv" = "swap\n"
+doSwap _ = ""
